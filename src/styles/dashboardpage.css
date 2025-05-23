@@ -1,0 +1,10 @@
+/* src/pages/DashboardPage.css */
+
+.dashboard-container {
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #FDB46C !important;
+  }
+  
