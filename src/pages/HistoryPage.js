@@ -73,6 +73,18 @@ const HistoryPage = () => {
           padding: 0 5px;
           cursor: pointer;
         }
+        .icon-button {
+          background: none;
+          border: none;
+          padding: 5px;
+          width: 36px;
+          height: 36px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+        }
+
       `}</style>
 
       {showSuccess && (
@@ -155,7 +167,7 @@ const HistoryPage = () => {
             </li>
             <li className="nav-item mb-3 w-100">
               <button
-                className={`btn w-100 text-start ${location.pathname === '/history-page' ? 'btn-light text-dark' : 'btn-outline-light'}`}
+                className={`btn w-100 text-start ${location.pathname === '/history-page' || location.pathname === '/history-page/progress-approval' ? 'btn-light text-dark' : 'btn-outline-light'}`}
                 onClick={() => navigate('/history-page')}
               >
                 <i className="bi bi-clock-history me-2"></i>{sidebarOpen && 'Riwayat Data'}
@@ -259,10 +271,15 @@ const HistoryPage = () => {
                           <td>{item.dataSdi}</td>
                           <td>{item.produsen}</td>
                           <td>
-                            <span className={`badge px-3 py-2 text-capitalize ${item.status === 'approved' ? 'bg-success' : item.status === 'rejected' ? 'bg-danger' : 'bg-warning text-dark'}`}>
+                            <button
+                              className={`btn btn-sm text-capitalize px-3 py-2 ${item.status === 'approved' ? 'btn-success' : item.status === 'rejected' ? 'btn-danger' : 'btn-warning text-dark'}`}
+                              onClick={() => navigate('/history-page/progress-approval')}
+                              style={{ width: '100px' }}
+                            >
                               {item.status}
-                            </span>
+                            </button>
                           </td>
+
                           <td>
                             <button className="icon-button text-primary" title="Lihat Data" onClick={() => navigate('/data-page/preview')}>
                               <i className="bi bi-eye-fill"></i>

@@ -6,9 +6,10 @@ import DashboardPage from './pages/DashboardPage';
 import PreviewPage from './pages/PreviewPage';
 import CreateDBPage from './pages/CreateDBPage';
 import DataPage from './pages/DataPage';
-import ProgressApprovalPage from './pages/ProgressApprovalPage';
 import ApprovalPage from './pages/ApprovalPage';
 import HistoryPage from './pages/HistoryPage';
+import ProgressApprovalPage from './pages/ProgressApprovalPage';
+import EditHistoryPage from './pages/EditHistoryPage';
 
 const AppRoutes = () => {
   return (
@@ -20,9 +21,10 @@ const AppRoutes = () => {
         <Route path="/data-page/preview" element={<PreviewPage />} />
         <Route path="/create-database" element={<CreateDBPage />} />
         <Route path="/data-page" element={<DataPage />} />
-        <Route path="/data-page/progress-approval" element={<ProgressApprovalPage />} />
         <Route path="/approval-page" element={<ApprovalPage />} />
         <Route path="/history-page" element={<HistoryPage />} />
+        <Route path="/history-page/progress-approval" element={<ProgressApprovalPage />} />
+        <Route path="/history-page/edit-approval" element={<EditHistoryPage />} />
       </Routes>
     </Router>
   );
