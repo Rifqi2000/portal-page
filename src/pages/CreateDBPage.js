@@ -13,9 +13,12 @@ const CreateDBPage = () => {
   const [existingDatabases] = useState(['db_umkm', 'db_kependudukan']);
   const [columns, setColumns] = useState([]);
   const [preview, setPreview] = useState([]);
-  const [fileName, setFileName] = useState('');
-  const [firstRowHeader, setFirstRowHeader] = useState(true);
-  const [dbCreated, setDbCreated] = useState(false);
+  // const [fileName, setFileName] = useState('');
+  const [setFileName] = useState('');
+  // const [firstRowHeader, setFirstRowHeader] = useState(true);
+  const [firstRowHeader] = useState(true);
+  // const [dbCreated, setDbCreated] = useState(false);
+  const [setDbCreated] = useState(false);
   const [uploadStep, setUploadStep] = useState(1);
   const [dataDescription, setDataDescription] = useState('');
   const [isDbNameSaved, setIsDbNameSaved] = useState(false);

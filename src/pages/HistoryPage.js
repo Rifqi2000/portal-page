@@ -22,7 +22,7 @@ const HistoryPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [search, setSearch] = useState('');
   const [filterSdi, setFilterSdi] = useState('Semua');
-  const [filterProdusen, setFilterProdusen] = useState('Semua');
+  // const [filterProdusen, setFilterProdusen] = useState('Semua');
   const [filterStatus, setFilterStatus] = useState('Semua');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -30,7 +30,8 @@ const HistoryPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [data, setData] = useState(dataDummy);
+  // const [data, setData] = useState(dataDummy);
+  const [setData] = useState(dataDummy);
 
 
   const filteredData = dataDummy.filter(item =>

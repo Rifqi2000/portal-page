@@ -203,6 +203,8 @@ const ProgressApprovalPage = ({ status = 'pending' }) => {
                     ].map((reason, index) => (
                       <li key={index} className="d-flex align-items-start mb-2">
                         <span
+                          role="img"
+                          aria-label="cross mark"
                           className="me-2"
                           style={{
                             fontSize: '1.2rem',
@@ -212,6 +214,7 @@ const ProgressApprovalPage = ({ status = 'pending' }) => {
                         >
                           ❌
                         </span>
+
                         <span>{reason}</span>
                       </li>
                     ))}

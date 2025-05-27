@@ -61,7 +61,15 @@ const LoginPage = () => {
                   Ingat Saya
                 </label>
               </div>
-              <a href="#" className="text-muted" style={{ fontSize: '0.9rem' }}>Lupa Password?</a>
+              <button
+                type="button"
+                onClick={() => alert('Fitur lupa password belum tersedia.')}
+                className="btn btn-link text-muted p-0"
+                style={{ fontSize: '0.9rem', textDecoration: 'none' }}
+              >
+                Lupa Password?
+              </button>
+
             </div>
 
             <button
