@@ -4,7 +4,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Modal, Button } from 'react-bootstrap';
 
 const sdiOptions = ['Semua', 'Data SDI', 'Tidak'];
-const produsenOptions = ['Semua', 'Perumahan', 'Permukiman', 'RPM', 'Pusdatin'];
+// const produsenOptions = ['Semua', 'Perumahan', 'Permukiman', 'RPM', 'Pusdatin'];
 const statusOptions = ['Semua', 'approved', 'rejected', 'pending'];
 
 const dataDummy = Array.from({ length: 20 }, (_, i) => ({
@@ -12,7 +12,7 @@ const dataDummy = Array.from({ length: 20 }, (_, i) => ({
   name: `Data ${String.fromCharCode(65 + i)}`,
   deskripsi: `Deskripsi Data ${String.fromCharCode(65 + i)}`,
   dataSdi: ['Data SDI', 'Tidak'][Math.floor(Math.random() * 2)],
-  produsen: ['Perumahan', 'Permukiman', 'RPM', 'Pusdatin'][Math.floor(Math.random() * 4)],
+  // produsen: ['Perumahan', 'Permukiman', 'RPM', 'Pusdatin'][Math.floor(Math.random() * 4)],
   status: ['approved', 'rejected', 'pending'][i % 3],
 }));
 
@@ -36,7 +36,7 @@ const HistoryPage = () => {
   const filteredData = dataDummy.filter(item =>
     item.name.toLowerCase().includes(search.toLowerCase()) &&
     (filterSdi === 'Semua' || item.dataSdi === filterSdi) &&
-    (filterProdusen === 'Semua' || item.produsen === filterProdusen) &&
+    // (filterProdusen === 'Semua' || item.produsen === filterProdusen) &&
     (filterStatus === 'Semua' || item.status === filterStatus)
   );
 
@@ -167,7 +167,7 @@ const HistoryPage = () => {
             </li>
             <li className="nav-item mb-3 w-100">
               <button
-                className={`btn w-100 text-start ${location.pathname === '/history-page' || location.pathname === '/history-page/progress-approval' ? 'btn-light text-dark' : 'btn-outline-light'}`}
+                className={`btn w-100 text-start ${location.pathname === '/history-page' || location.pathname === '/history-page/progress-approval' || location.pathname === '/history-page/edit-page' ? 'btn-light text-dark' : 'btn-outline-light'}`}
                 onClick={() => navigate('/history-page')}
               >
                 <i className="bi bi-clock-history me-2"></i>{sidebarOpen && 'Riwayat Data'}
@@ -216,14 +216,14 @@ const HistoryPage = () => {
                 >
                   {sdiOptions.map(opt => <option key={opt}>{opt}</option>)}
                 </select>
-                <select
+                {/* <select
                   className="form-select"
                   value={filterProdusen}
                   onChange={(e) => setFilterProdusen(e.target.value)}
                   style={{ maxWidth: '150px' }}
                 >
                   {produsenOptions.map(opt => <option key={opt}>{opt}</option>)}
-                </select>
+                </select> */}
                 <select
                   className="form-select"
                   value={filterStatus}
@@ -257,7 +257,7 @@ const HistoryPage = () => {
                       <th>ID</th>
                       <th>Nama Data</th>
                       <th>Data SDI</th>
-                      <th>Produsen Data</th>
+                      {/* <th>Produsen Data</th> */}
                       <th>Status</th>
                       <th>Aksi</th>
                     </tr>
@@ -269,7 +269,7 @@ const HistoryPage = () => {
                           <td>{item.id}</td>
                           <td>{item.name}</td>
                           <td>{item.dataSdi}</td>
-                          <td>{item.produsen}</td>
+                          {/* <td>{item.produsen}</td> */}
                           <td>
                             <button
                               className={`btn btn-sm text-capitalize px-3 py-2 ${item.status === 'approved' ? 'btn-success' : item.status === 'rejected' ? 'btn-danger' : 'btn-warning text-dark'}`}
@@ -292,7 +292,7 @@ const HistoryPage = () => {
                                 <i className="bi bi-plus-square-fill"></i>
                               </button>
                             )}
-                            <button className="icon-button text-warning" title="Edit Data">
+                            <button className="icon-button text-warning" title="Edit Data" onClick={() => navigate('/history-page/edit-page')}>
                               <i className="bi bi-pencil-square"></i>
                             </button>
                             <button className="icon-button text-danger" title="Hapus" onClick={() => { setSelectedId(item.id); setShowDeleteModal(true); }}>

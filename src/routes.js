@@ -24,7 +24,7 @@ const AppRoutes = () => {
         <Route path="/approval-page" element={<ApprovalPage />} />
         <Route path="/history-page" element={<HistoryPage />} />
         <Route path="/history-page/progress-approval" element={<ProgressApprovalPage />} />
-        <Route path="/history-page/edit-approval" element={<EditHistoryPage />} />
+        <Route path="/history-page/edit-page" element={<EditHistoryPage />} />
       </Routes>
     </Router>
   );

@@ -304,7 +304,7 @@ const CreateDBPage = () => {
                 placeholder="Contoh: data_penduduk"
               />
               <button
-                className="btn btn-outline-primary"
+                className="btn btn-primary"
                 type="button"
                 onClick={() => {
                   if (!tableName.trim()) {
@@ -338,7 +338,7 @@ const CreateDBPage = () => {
                 placeholder="Tuliskan deskripsi singkat tentang data yang akan diupload..."
               ></textarea>
               <button
-                className="btn btn-outline-success mt-1"
+                className="btn btn-primary"
                 type="button"
                 onClick={() => {
                   if (!dataDescription.trim()) {

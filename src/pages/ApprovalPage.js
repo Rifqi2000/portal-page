@@ -138,7 +138,7 @@ const ApprovalPage = () => {
           </div>
           <div className="col-md-3">
             <div className="bg-light p-3 rounded shadow-sm">
-              <div className="text-muted">Bidang</div>
+              <div className="text-muted">Produsen Data</div>
               <div className="fw-bold text-dark">{dummyData.bidang}</div>
             </div>
           </div>
