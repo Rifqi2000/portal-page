@@ -101,7 +101,7 @@ const ProgressApprovalPage = ({ status = 'pending' }) => {
           </li>
           <li className="nav-item mb-3 w-100">
             <button
-              className={`btn w-100 text-start ${location.pathname === '/history-page' ? 'btn-light text-dark' : 'btn-outline-light'}`}
+              className={`btn w-100 text-start ${location.pathname === '/history-page' || location.pathname === '/history-page/progress-approval' || location.pathname === '/history-page/edit-page' || location.pathname === '/history-page/add-page'? 'btn-light text-dark' : 'btn-outline-light'}`}
               onClick={() => navigate('/history-page')}
             >
               <i className="bi bi-clock-history me-2"></i>{sidebarOpen && 'Riwayat Data'}

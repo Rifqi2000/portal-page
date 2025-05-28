@@ -17,8 +17,8 @@ const CreateDBPage = () => {
   const [setFileName] = useState('');
   // const [firstRowHeader, setFirstRowHeader] = useState(true);
   const [firstRowHeader] = useState(true);
-  // const [dbCreated, setDbCreated] = useState(false);
-  const [setDbCreated] = useState(false);
+  const [dbCreated, setDbCreated] = useState(false);
+  // const [setDbCreated] = useState(false);
   const [uploadStep, setUploadStep] = useState(1);
   const [dataDescription, setDataDescription] = useState('');
   const [isDbNameSaved, setIsDbNameSaved] = useState(false);

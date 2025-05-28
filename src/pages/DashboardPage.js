@@ -169,7 +169,7 @@ const DashboardPage = () => {
         >
           <div className="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
             <h2 className="fw-bold text-dark mb-0">
-              <i className="bi bi-speedometer2 me-2"></i>Dashboard Data
+              <i className="bi bi-speedometer2 me-2"></i>Dashboard
             </h2>
             <button className="btn btn-outline-danger" onClick={() => navigate('/')}>
               Logout

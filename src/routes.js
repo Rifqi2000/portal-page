@@ -10,6 +10,8 @@ import ApprovalPage from './pages/ApprovalPage';
 import HistoryPage from './pages/HistoryPage';
 import ProgressApprovalPage from './pages/ProgressApprovalPage';
 import EditHistoryPage from './pages/EditHistoryPage';
+import AddDataHistoryPage from './pages/AddDataHistoryPage';
+import LogDataHistoryPage from './pages/LogDataHistoryPage';
 
 const AppRoutes = () => {
   return (
@@ -25,6 +27,8 @@ const AppRoutes = () => {
         <Route path="/history-page" element={<HistoryPage />} />
         <Route path="/history-page/progress-approval" element={<ProgressApprovalPage />} />
         <Route path="/history-page/edit-page" element={<EditHistoryPage />} />
+        <Route path="/history-page/add-page" element={<AddDataHistoryPage />} />
+        <Route path="/history-page/log-page" element={<LogDataHistoryPage />} />
       </Routes>
     </Router>
   );

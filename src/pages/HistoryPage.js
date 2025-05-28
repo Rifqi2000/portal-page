@@ -30,16 +30,15 @@ const HistoryPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
-  // const [data, setData] = useState(dataDummy);
-  const [setData] = useState(dataDummy);
+  const [data, setData] = useState(dataDummy);
+  // const [setData] = useState(dataDummy);
 
 
-  const filteredData = dataDummy.filter(item =>
-    item.name.toLowerCase().includes(search.toLowerCase()) &&
-    (filterSdi === 'Semua' || item.dataSdi === filterSdi) &&
-    // (filterProdusen === 'Semua' || item.produsen === filterProdusen) &&
-    (filterStatus === 'Semua' || item.status === filterStatus)
-  );
+  const filteredData = data.filter(item =>
+  item.name.toLowerCase().includes(search.toLowerCase()) &&
+  (filterSdi === 'Semua' || item.dataSdi === filterSdi) &&
+  (filterStatus === 'Semua' || item.status === filterStatus));
+
 
   const handleDelete = () => {
     setData(prev => prev.filter(item => item.id !== selectedId));
@@ -168,7 +167,7 @@ const HistoryPage = () => {
             </li>
             <li className="nav-item mb-3 w-100">
               <button
-                className={`btn w-100 text-start ${location.pathname === '/history-page' || location.pathname === '/history-page/progress-approval' || location.pathname === '/history-page/edit-page' ? 'btn-light text-dark' : 'btn-outline-light'}`}
+                className={`btn w-100 text-start ${location.pathname === '/history-page' || location.pathname === '/history-page/progress-approval' || location.pathname === '/history-page/edit-page' || location.pathname === '/history-page/add-page' || location.pathname === '/history-page/log-page' ? 'btn-light text-dark' : 'btn-outline-light'}`}
                 onClick={() => navigate('/history-page')}
               >
                 <i className="bi bi-clock-history me-2"></i>{sidebarOpen && 'Riwayat Data'}
@@ -285,11 +284,11 @@ const HistoryPage = () => {
                             <button className="icon-button text-primary" title="Lihat Data" onClick={() => navigate('/data-page/preview')}>
                               <i className="bi bi-eye-fill"></i>
                             </button>
-                            <button className="icon-button text-info" title="Lihat Log" onClick={() => console.log(`Log data untuk ID ${item.id}`)}>
+                            <button className="icon-button text-info" title="Lihat Log" onClick={() => navigate('/history-page/log-page')}>
                               <i className="bi bi-journal-text"></i>
                             </button>
                             {item.status === 'approved' && (
-                              <button className="icon-button text-success" title="Tambah Data">
+                              <button className="icon-button text-success" title="Tambah Data" onClick={() => navigate('/history-page/add-page')}>
                                 <i className="bi bi-plus-square-fill"></i>
                               </button>
                             )}

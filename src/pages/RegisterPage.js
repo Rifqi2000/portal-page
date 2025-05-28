@@ -4,13 +4,30 @@ import logoDprkp from '../assets/images/logo-dprkp.png';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ username: '', email: '', password: '' });
+  const [form, setForm] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    bidang: '',
+  });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleRegister = (e) => {
     e.preventDefault();
+    if (form.password !== form.confirmPassword) {
+      alert('Password dan konfirmasi password tidak cocok.');
+      return;
+    }
+    if (!form.bidang) {
+      alert('Silakan pilih bidang.');
+      return;
+    }
+
+    // Simulasi register
+    console.log('Register data:', form);
     navigate('/');
   };
 
@@ -30,7 +47,6 @@ const RegisterPage = () => {
           <form onSubmit={handleRegister}>
             <div className="mb-3">
               <input
-                id="username"
                 type="text"
                 name="username"
                 className="form-control"
@@ -43,7 +59,6 @@ const RegisterPage = () => {
 
             <div className="mb-3">
               <input
-                id="email"
                 type="email"
                 name="email"
                 className="form-control"
@@ -54,9 +69,8 @@ const RegisterPage = () => {
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-3">
               <input
-                id="password"
                 type="password"
                 name="password"
                 className="form-control"
@@ -65,6 +79,34 @@ const RegisterPage = () => {
                 onChange={handleChange}
                 required
               />
+            </div>
+
+            <div className="mb-3">
+              <input
+                type="password"
+                name="confirmPassword"
+                className="form-control"
+                placeholder="Konfirmasi Password"
+                value={form.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <select
+                name="bidang"
+                className="form-select"
+                value={form.bidang}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Pilih Bidang</option>
+                <option value="Perumahan">Perumahan</option>
+                <option value="Permukiman">Permukiman</option>
+                <option value="RPM">RPM</option>
+                <option value="Pusdatin">Pusdatin</option>
+              </select>
             </div>
 
             <button type="submit" className="btn w-100 fw-semibold" style={{ backgroundColor: '#104D62', color: '#fff' }}>

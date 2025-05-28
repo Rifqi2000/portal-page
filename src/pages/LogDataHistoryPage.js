@@ -1,31 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { FaArrowLeft } from 'react-icons/fa';
 
-const dummyData = {
-  namaDatabase: 'db_kependudukan',
-  namaTabel: 'data_penduduk',
-  deskripsi: 'Data penduduk berdasarkan wilayah dan kategori usia.',
-  namaUser: 'Rifqi Mulya',
-  bidang: 'Kependudukan',
-  preview: [
-    { NIK: '3201010101010001', Nama: 'Ahmad', Usia: 34, Alamat: 'Jl. Merdeka 1' },
-    { NIK: '3201010101010002', Nama: 'Siti', Usia: 28, Alamat: 'Jl. Merdeka 2' },
-    { NIK: '3201010101010003', Nama: 'Budi', Usia: 40, Alamat: 'Jl. Merdeka 3' },
-    { NIK: '3201010101010001', Nama: 'Ahmad', Usia: 34, Alamat: 'Jl. Merdeka 1' },
-    { NIK: '3201010101010002', Nama: 'Siti', Usia: 28, Alamat: 'Jl. Merdeka 2' },
-    { NIK: '3201010101010003', Nama: 'Budi', Usia: 40, Alamat: 'Jl. Merdeka 3' },
-    { NIK: '3201010101010001', Nama: 'Ahmad', Usia: 34, Alamat: 'Jl. Merdeka 1' },
-    { NIK: '3201010101010002', Nama: 'Siti', Usia: 28, Alamat: 'Jl. Merdeka 2' },
-    { NIK: '3201010101010003', Nama: 'Budi', Usia: 40, Alamat: 'Jl. Merdeka 3' },
-  ],
-};
-
-const ApprovalPage = () => {
+const LogDataHistoryPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const fileInputRef = useRef(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [dbName, setDbName] = useState('db_kependudukan');
+  const [tableName, setTableName] = useState('data_penduduk');
+  const [dataSDI, setDataSDI] = useState('Data SDI');
+  const [dataBidang, setBidang] = useState('Perumahan');
+  const [dataDescription, setDataDescription] = useState('Deskripsi awal data ini.');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('');
+  const [uploadMode, setUploadMode] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const sidebarGradient = 'linear-gradient(135deg, #F98025, #FDB46C)';
+
+  const dummyData = {
+    namaDatabase: dbName,
+    namaTabel: tableName,
+    jenisDataSDI: dataSDI,
+    namaBidang: dataBidang,
+    deskripsi: dataDescription,
+    preview: [
+      { NIK: '1234567890', Nama: 'John Doe', Usia: 30, Alamat: 'Jl. Merdeka 1' },
+      { NIK: '2345678901', Nama: 'Jane Smith', Usia: 25, Alamat: 'Jl. Sudirman 2' },
+      { NIK: '3456789012', Nama: 'Alice Johnson', Usia: 28, Alamat: 'Jl. Thamrin 3' }
+    ]
+  };
+
+  const logData = [
+    {
+      waktu: '2025-05-28 10:32',
+      user: 'admin',
+      tabel: 'data_kependudukan',
+      aksi: 'Update',
+      keterangan: 'Perubahan pada kolom "Usia" untuk NIK 1234567890',
+    },
+    {
+      waktu: '2025-05-28 10:40',
+      user: 'rifqi',
+      tabel: 'data_kependudukan',
+      aksi: 'Create',
+      keterangan: 'Penambahan data baru NIK 0987654321',
+    },
+  ];
+
+
+  const expectedColumns = ['NIK', 'Nama', 'Usia', 'Alamat'];
+
+  const handleUploadFile = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: 'binary' });
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+      const headerRow = data[0].map((h) => h.trim());
+      const isValid = JSON.stringify(headerRow) === JSON.stringify(expectedColumns);
+
+      if (isValid) {
+        const message = uploadMode === 'add' ? 'Data Berhasil Ditambahkan' : 'Data Berhasil Diganti';
+        Swal.fire('Sukses!', message, 'success');
+      } else {
+        const message = uploadMode === 'add' ? 'Data Gagal Ditambahkan' : 'Data Gagal Diganti';
+        Swal.fire('Gagal!', message, 'error');
+      }
+    };
+    reader.readAsBinaryString(file);
+  };
+
+  const handleUploadPrompt = (mode) => {
+    Swal.fire({
+      title: mode === 'add' ? 'Tambah Data' : 'Ganti Data',
+      text: 'Data akan diunggah dalam bentuk csv/excel. Apakah nama kolom sudah sesuai?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, lanjutkan',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setUploadMode(mode);
+        fileInputRef.current.click();
+      }
+    });
+  };
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh', overflowX: 'hidden', fontFamily: 'sans-serif' }}>
@@ -88,7 +157,7 @@ const ApprovalPage = () => {
           
           <li className="nav-item mb-3 w-100">
             <button
-              className={`btn w-100 text-start ${location.pathname === '/history-page' ? 'btn-light text-dark' : 'btn-outline-light'}`}
+              className={`btn w-100 text-start ${location.pathname === '/history-page' || location.pathname === '/history-page/progress-approval' || location.pathname === '/history-page/edit-page' || location.pathname === '/history-page/add-page' || location.pathname === '/history-page/log-page' ? 'btn-light text-dark' : 'btn-outline-light'}`}
               onClick={() => navigate('/history-page')}
             >
               <i className="bi bi-clock-history me-2"></i>{sidebarOpen && 'Riwayat Data'}
@@ -114,15 +183,24 @@ const ApprovalPage = () => {
         </ul>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-grow-1 p-4 pt-5" style={{ marginLeft: sidebarOpen ? '250px' : '100px', transition: 'margin-left 0.3s' }}>
-        <div className="d-flex justify-content-between align-items-start mb-4">
+      <div className="flex-grow-1 p-4 pt-5" style={{ marginLeft: sidebarOpen ? '250px' : '100px', transition: 'margin-left 0.3s', zIndex: 0 }}>
+        <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="fw-bold text-dark">
-            <i className="bi bi-check2-square me-2"></i>Approval Data
+            <i className="bi bi-plus-square-fill me-2"></i>Log Data
           </h2>
-          <button className="btn btn-outline-danger" onClick={() => navigate('/')}>Logout</button>
+          <button className="btn btn-outline-secondary d-flex align-items-center gap-2" onClick={() => navigate(-1)}>
+            <FaArrowLeft /> Kembali
+          </button>
         </div>
 
+        {alertMessage && (
+          <div className={`alert alert-${alertType} alert-dismissible fade show`} role="alert">
+            {alertMessage}
+            <button type="button" className="btn-close" onClick={() => setAlertMessage('')}></button>
+          </div>
+        )}
+
+        {/* Info Cards */}
         <div className="row g-3 mb-4">
           <div className="col-md-3">
             <div className="bg-light p-3 rounded shadow-sm">
@@ -138,14 +216,14 @@ const ApprovalPage = () => {
           </div>
           <div className="col-md-3">
             <div className="bg-light p-3 rounded shadow-sm">
-              <div className="text-muted">Produsen Data</div>
-              <div className="fw-bold text-dark">{dummyData.bidang}</div>
+              <div className="text-muted">Data SDI</div>
+              <div className="fw-bold text-dark">{dummyData.jenisDataSDI}</div>
             </div>
           </div>
           <div className="col-md-3">
             <div className="bg-light p-3 rounded shadow-sm">
-              <div className="text-muted">Nama User</div>
-              <div className="fw-bold text-dark">{dummyData.namaUser}</div>
+              <div className="text-muted">Bidang</div>
+              <div className="fw-bold text-dark">{dummyData.namaBidang}</div>
             </div>
           </div>
         </div>
@@ -164,37 +242,36 @@ const ApprovalPage = () => {
             <table className="table table-hover align-middle">
               <thead className="table-light">
                 <tr>
-                  <th className="fw-semibold">NIK</th>
-                  <th className="fw-semibold">Nama</th>
-                  <th className="fw-semibold">Usia</th>
-                  <th className="fw-semibold">Alamat</th>
+                  <th className="fw-semibold">Waktu Update</th>
+                  <th className="fw-semibold">User</th>
+                  <th className="fw-semibold">Nama Tabel</th>
+                  <th className="fw-semibold">Aksi</th>
+                  <th className="fw-semibold">Keterangan</th>
                 </tr>
               </thead>
               <tbody>
-                {dummyData.preview.map((row, index) => (
-                  <tr key={index}>
-                    <td>{row.NIK}</td>
-                    <td>{row.Nama}</td>
-                    <td>{row.Usia}</td>
-                    <td>{row.Alamat}</td>
-                  </tr>
-                ))}
+                {logData
+                  .filter((log) =>
+                    Object.values(log).some((value) =>
+                      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+                    )
+                  )
+                  .map((log, index) => (
+                    <tr key={index}>
+                      <td>{log.waktu}</td>
+                      <td>{log.user}</td>
+                      <td>{log.tabel}</td>
+                      <td>{log.aksi}</td>
+                      <td>{log.keterangan}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
-        </div>
-
-        <div className="d-flex justify-content-center gap-3 mt-4">
-            <button className="btn btn-success d-flex align-items-center gap-2">
-                <i className="bi bi-check-circle"></i>Tambah Data
-            </button>
-            <button className="btn btn-danger d-flex align-items-center gap-2">
-                <i className="bi bi-x-circle"></i>Tolak Data
-            </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default ApprovalPage;
+export default LogDataHistoryPage;
